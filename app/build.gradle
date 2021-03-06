@@ -25,6 +25,10 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    dataBinding {
+        enabled = true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -48,16 +52,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "androidx.annotation:annotation:$annotationVersion"
     implementation "com.squareup.picasso:picasso:$picassoVersion"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     androidTestImplementation "androidx.test.ext:junit-ktx:$androidXJunitVersion"
-
-    /*testImplementation "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-    testImplementation "io.mockk:mockk:$mockVersion"
-    androidTestImplementation "org.assertj:assertj-core:$assertjVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoIntentsVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTestVersion"
-    implementation "androidx.arch.core:core-testing:$coreTestingVersion"
-    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
-    implementation "androidx.test.espresso:espresso-contrib:$espressoVersion"*/
 
     //Android support
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
@@ -78,4 +74,8 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.fragment:fragment-ktx:1.2.5"
+
 }

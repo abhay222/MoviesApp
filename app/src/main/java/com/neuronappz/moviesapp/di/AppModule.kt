@@ -2,6 +2,7 @@ package com.task.di
 
 import android.content.Context
 import com.neuronappz.moviesapp.data.local.LocalData
+import com.neuronappz.moviesapp.data.remote.ServiceGenerator
 import com.neuronappz.moviesapp.utils.Network
 import com.neuronappz.moviesapp.utils.NetworkConnectivity
 import dagger.Module
@@ -32,5 +33,11 @@ class AppModule {
     @Singleton
     fun provideNetworkConnectivity(@ApplicationContext context: Context): NetworkConnectivity {
         return Network(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideServiceGenerator(@ApplicationContext context: Context): ServiceGenerator {
+        return ServiceGenerator(context)
     }
 }

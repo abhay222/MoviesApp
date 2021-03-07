@@ -1,6 +1,5 @@
-package com.neuronappz.moviesapp.ui
+package com.neuronappz.moviesapp.ui.upcoming
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +12,8 @@ class UpcomingMoviesAdapter(
 ) : RecyclerView.Adapter<UpcomingMoviesViewHolder>() {
     val TAG = UpcomingMoviesAdapter::class.java.simpleName
 
-    private val mUpcomingMoviesAdapterListener = object : UpcomingMoviesAdapterListener {
+    private val mUpcomingMoviesAdapterListener = object :
+        UpcomingMoviesAdapterListener {
         override fun onItemClicked(item: UpcomingMoviesResult) {
             upcomingMoviesViewModel.openUpcomingMoviesDetails(item)
         }
@@ -22,7 +22,9 @@ class UpcomingMoviesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UpcomingMoviesViewHolder {
         val itemBinding =
             UpcomingMoviesItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return UpcomingMoviesViewHolder(itemBinding)
+        return UpcomingMoviesViewHolder(
+            itemBinding
+        )
     }
 
     override fun getItemCount(): Int {

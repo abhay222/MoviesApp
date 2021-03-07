@@ -1,5 +1,8 @@
 package com.neuronappz.moviesapp.data.dataModels
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 data class UpcomingMoviesResponse(
     val dates: Dates,
     val page: Int,
@@ -13,6 +16,7 @@ data class Dates(
     val minimum: String
 )
 
+@Parcelize
 data class UpcomingMoviesResult(
     val adult: Boolean,
     val backdrop_path: String,
@@ -28,4 +32,4 @@ data class UpcomingMoviesResult(
     val video: Boolean,
     val vote_average: Double,
     val vote_count: Int
-)
+) : Parcelable

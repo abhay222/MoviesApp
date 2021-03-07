@@ -21,7 +21,6 @@ private const val contentType = "Content-Type"
 private const val contentTypeValue = "application/json;charset=utf-8"
 private const val timeoutConnect = 30   //In seconds
 
-@Singleton
 class ServiceGenerator @Inject constructor(private val context: Context) {
     private val okHttpBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
     private val retrofit: Retrofit

@@ -53,6 +53,7 @@ dependencies {
     implementation "androidx.annotation:annotation:$annotationVersion"
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     androidTestImplementation "androidx.test.ext:junit-ktx:$androidXJunitVersion"
 
     //Android support

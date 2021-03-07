@@ -1,17 +1,14 @@
-package com.neuronappz.moviesapp.ui
+package com.neuronappz.moviesapp.ui.upcoming
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProviders
 import com.neuronappz.moviesapp.R
 import com.neuronappz.moviesapp.data.Resource
-import com.neuronappz.moviesapp.databinding.FragmentUpcomingMoviesBinding
-import com.neuronappz.moviesapp.utils.BaseViewModelFactory
 import com.neuronappz.moviesapp.utils.observe
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.fragment.app.viewModels
@@ -19,6 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.neuronappz.moviesapp.data.dataModels.UpcomingMoviesResponse
 import com.neuronappz.moviesapp.data.dataModels.UpcomingMoviesResult
+import com.neuronappz.moviesapp.ui.upcoming.detail.UpcomingDetailActivity
+import com.neuronappz.moviesapp.utils.DETAILS_ITEM_KEY
+import com.neuronappz.moviesapp.utils.SingleEvent
 
 
 @AndroidEntryPoint
@@ -42,14 +42,27 @@ class UpcomingMoviesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        upcomingAdapter = UpcomingMoviesAdapter(upcomingMoviesViewModel, mMoviesList)
+        upcomingAdapter =
+            UpcomingMoviesAdapter(
+                upcomingMoviesViewModel,
+                mMoviesList
+            )
         val recyclerView = view.findViewById<RecyclerView>(R.id.rv_list)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = upcomingAdapter
         recyclerView.setHasFixedSize(true)
 
         observe(upcomingMoviesViewModel.upcomingMoviesResponse, ::handleRecipesList)
+        observe(upcomingMoviesViewModel.upcomingMoviesDetail, ::navigateToDetailScreen)
         upcomingMoviesViewModel.getUpcomingMovies()
+    }
+
+    private fun navigateToDetailScreen(singleEvent: SingleEvent<UpcomingMoviesResult>) {
+        Log.d(TAG, "navigateToDetailScreen: ")
+        val nextScreenIntent = Intent(activity, UpcomingDetailActivity::class.java).apply {
+            putExtra(DETAILS_ITEM_KEY, singleEvent.getContentIfNotHandled())
+        }
+        activity?.startActivity(nextScreenIntent)
     }
 
     val TAG = UpcomingMoviesFragment::class.java.simpleName

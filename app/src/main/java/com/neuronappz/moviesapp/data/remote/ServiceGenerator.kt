@@ -1,6 +1,8 @@
 package com.neuronappz.moviesapp.data.remote
 
+import android.content.Context
 import com.neuronappz.moviesapp.BuildConfig
+import com.neuronappz.moviesapp.R
 import com.neuronappz.moviesapp.data.remote.moshi.MyKotlinJsonAdapterFactory
 import com.neuronappz.moviesapp.data.remote.moshi.MyStandardJsonAdapters
 import com.neuronappz.moviesapp.utils.BASE_URL
@@ -20,7 +22,7 @@ private const val contentTypeValue = "application/json;charset=utf-8"
 private const val timeoutConnect = 30   //In seconds
 
 @Singleton
-class ServiceGenerator @Inject constructor() {
+class ServiceGenerator @Inject constructor(private val context: Context) {
     private val okHttpBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
     private val retrofit: Retrofit
 
@@ -28,10 +30,13 @@ class ServiceGenerator @Inject constructor() {
         val original = chain.request()
 
         val request = original.newBuilder()
-                .header(contentType, contentTypeValue)
-                .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNzgwM2Q1YmExNDQ0MDZkMmMzYzY5YWYyN2MzN2M2ZiIsInN1YiI6IjU3NTU3NjYyOTI1MTQxMmNjMDAwMDQ4MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CChqWc48aslvHQZ_TpsKgX9v7x853OwqUe7LAOcbxTI")
-                .method(original.method, original.body)
-                .build()
+            .header(contentType, contentTypeValue)
+            .header(
+                "Authorization",
+                "Bearer " + context.resources.getString(R.string.movie_db_api_key)
+            )
+            .method(original.method, original.body)
+            .build()
 
         chain.proceed(request)
     }
@@ -52,9 +57,9 @@ class ServiceGenerator @Inject constructor() {
         okHttpBuilder.readTimeout(timeoutRead.toLong(), TimeUnit.SECONDS)
         val client = okHttpBuilder.build()
         retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL).client(client)
-                .addConverterFactory(MoshiConverterFactory.create(getMoshi()))
-                .build()
+            .baseUrl(BASE_URL).client(client)
+            .addConverterFactory(MoshiConverterFactory.create(getMoshi()))
+            .build()
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
@@ -63,8 +68,8 @@ class ServiceGenerator @Inject constructor() {
 
     private fun getMoshi(): Moshi {
         return Moshi.Builder()
-                .add(MyKotlinJsonAdapterFactory())
-                .add(MyStandardJsonAdapters.FACTORY)
-                .build()
+            .add(MyKotlinJsonAdapterFactory())
+            .add(MyStandardJsonAdapters.FACTORY)
+            .build()
     }
 }
